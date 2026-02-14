@@ -1,15 +1,14 @@
 using UnityEngine;
 
-public class cameracontrolls : MonoBehaviour
+public class CameraControls : MonoBehaviour
 {
-    {
-        public transform target;
-        public Vector3 posoffset;   
-    }
+    public Transform target;
+
+    public Vector3 posOffset;
 
     // Update is called once per frame
     private void LateUpdate()
     {
-        transformation.posistion = target.posistion + posoffset;
+        transform.position = target.position + posOffset;
     }
 }
