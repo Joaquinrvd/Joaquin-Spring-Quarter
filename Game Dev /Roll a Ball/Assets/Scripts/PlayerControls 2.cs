@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class pickups : MonoBehaviour
+public class PlayerControls2 : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

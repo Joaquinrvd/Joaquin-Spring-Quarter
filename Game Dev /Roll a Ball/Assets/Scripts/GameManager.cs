@@ -3,55 +3,59 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-   // handling the score of this game
-   // handling the UI for this game 
-   // handling resetting of the level on a lose state 
+    public static GameManager Instance { get; private set; }
 
-   public static GameManager Instance {get; private set;}
-   [SerialField, Tooltip("The score of the player (how many pickups they have collected")]
-   private int playerScore = 0;
-   [SerialField, Tooltip("A reference to the victory tet game object.")]
-   private GameObject victoryTextObject;
-   [SerialField, Tooltip("the parent game object of all pickup objects")] 
-   private GameObject pickupParent;
-   [SerialField, Tooltip("the ui object to keep the player score")]
-   private TextMeshProUGUI scoreText;
+    [SerializeField, Tooltip("The score of the player (how many pickups they have collected)")]
+    private int playerScore = 0;
 
-   // A unity  specific function called once at the start of the game Before Start()
-   // A great place to initialize variables in your scripts
-   private void Awake()
-   {
-        if (Instance == null) // there is no instance of GameManager assigned yet
+    [SerializeField, Tooltip("Victory text UI object")]
+    private GameObject victoryTextObject;
+
+    [SerializeField, Tooltip("Parent object that contains all pickups")]
+    private GameObject pickupParent;
+
+    [SerializeField, Tooltip("UI text that displays the score")]
+    private TextMeshProUGUI scoreText;
+
+    private int remainingPickup;
+
+    private void Awake()
+    {
+        // Singleton setup
+        if (Instance == null)
         {
-            Instance = this; // Assign the singleton instance to this instance
+            Instance = this;
         }
-        else // There is already a GameManager
-        {   
-            // Destroy the copy
+        else
+        {
             Destroy(gameObject);
         }
-   }
+    }
 
     private void Start()
-    { 
-        // Turn off the vicxtory text
-        victoryTextObject.SetActive(false);
-        //loop throug the pickup parent object and count the number of pickups
+    {
+        if (victoryTextObject != null)
+            victoryTextObject.SetActive(false);
+
+        if (pickupParent != null)
+            remainingPickup = pickupParent.transform.childCount;
+
+        UpdateScore(0);
     }
 
     public void UpdateScore(int value)
     {
-        // update score
         playerScore += value;
-        // update score ui
-        scoreText.text = "Score: " + playerScore;
+
+        if (scoreText != null)
+            scoreText.text = "Score: " + playerScore;
+
+        remainingPickup--;
+
+        if (remainingPickup <= 0)
+        {
+            if (victoryTextObject != null)
+                victoryTextObject.SetActive(true);
+        }
     }
-
-
-
-
-
-
-
 }
-
