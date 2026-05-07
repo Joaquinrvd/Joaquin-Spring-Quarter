@@ -11,7 +11,7 @@ import SwiftUI
 struct Spring_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Session_2()
         }
     }
 }
